@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Magical Tea — Magical Science in a Cup</title>
+  <meta name="description" content="Magical Tea: teh bunga telang + stevia. Sensasi berubah warna saat ditambah lemon. Sehat, edukatif, berkelanjutan." />
+  <style>
+    /* ---------- Reset & base ---------- */
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --accent-1:#3b2aa8; /* deep indigo (telang) */
+      --accent-2:#8b58d8; /* violet */
+      --accent-3:#ffd166; /* lemon yellow */
+      --muted:#6b6f76;
+      --glass: rgba(255,255,255,0.6);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#f6f7fb 0%, #eef0fb 100%);
+      color:#1f2937;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* ---------- Layout ---------- */
+    .container{max-width:1100px;margin:0 auto;padding:28px;}
+    header{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter: blur(6px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+      border-bottom:1px solid rgba(17,24,39,0.05);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;padding:12px 0;
+    }
+    .brand{display:flex;gap:12px;align-items:center;}
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent-2),var(--accent-1));
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;
+      box-shadow:0 6px 18px rgba(59,42,168,0.18);
+    }
+    .brand h1{margin:0;font-size:16px;letter-spacing:0.4px;}
+    nav a{margin-left:16px;color:var(--muted);text-decoration:none;font-weight:600}
+    nav a.cta{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;padding:8px 14px;border-radius:999px}
+
+    /* ---------- Hero ---------- */
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;padding:36px 0;
+    }
+    .hero .copy h2{font-size:34px;margin:0 0 12px;color:var(--accent-1)}
+    .hero .copy p{margin:0 0 18px;color:#374151}
+    .btns{display:flex;gap:12px}
+    .btn{
+      padding:12px 16px;border-radius:10px;border:0;font-weight:700;cursor:pointer;
+    }
+    .btn.primary{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;box-shadow:0 8px 24px rgba(139,88,216,0.18)}
+    .btn.secondary{background:transparent;border:2px solid rgba(59,42,168,0.12);color:var(--accent-1)}
+
+    /* cup illustration */
+    .cup-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+      border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(17,24,39,0.06);
+      display:flex;flex-direction:column;align-items:center;gap:14px;
+    }
+    .cup{
+      width:260px;height:260px;border-radius:36px;position:relative;overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,#eef2ff,#ffffff);
+      border:6px solid rgba(139,88,216,0.08);
+    }
+    /* liquid */
+    .liquid{
+      position:absolute;left:20px;right:20px;bottom:44px;height:120px;border-radius:16px;
+      transition:background 600ms ease, transform 600ms ease;
+      box-shadow:inset 0 -10px 20px rgba(0,0,0,0.06);
+    }
+    .cup-stem{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:120px;height:16px;border-radius:8px;background:linear-gradient(90deg,#f3f4f6,#fff);}
+
+    .cup-caption{font-weight:600;color:#374151}
+
+    /* ---------- Sections ---------- */
+    section{padding:40px 0;border-top:1px dashed rgba(17,24,39,0.03)}
+    h3{margin:0 0 14px;color:var(--accent-1)}
+    .three-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(17,24,39,0.04)}
+    .ingredient-ill{
+      width:64px;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+      box-shadow:0 6px 18px rgba(17,24,39,0.06);
+    }
+
+    /* products */
+    .products{display:flex;gap:14px;flex-wrap:wrap}
+    .prod{flex:1 1 240px;min-width:220px;border-radius:12px;padding:16px;background:linear-gradient(180deg,#fff,#fbfbff);border:1px solid rgba(59,42,168,0.05)}
+    .prod .name{font-weight:800;margin:8px 0}
+    .prod .price{font-weight:700;color:var(--accent-1)}
+    .prod .buy{margin-top:10px;padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;cursor:pointer}
+
+    /* science interactive */
+    .science-grid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+    .ph-control{display:flex;gap:8px;align-items:center}
+    input[type=range]{width:100%}
+
+    /* testimonials */
+    .testi{display:flex;gap:12px;align-items:center}
+    .testi .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(90deg,#ffd166,#ff9a6c);display:flex;align-items:center;justify-content:center;font-weight:800;color:white}
+    .carousel{position:relative;overflow:hidden;padding:8px}
+    .slide{display:flex;gap:12px;transition:transform 400ms ease}
+
+    /* footer */
+    footer{padding:28px 0;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center}
+    footer a{color:var(--muted);text-decoration:none}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;gap:24px}
+      .science-grid{grid-template-columns:1fr}
+      .three-grid{grid-template-columns:1fr}
+      nav a{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">MT</div>
+        <div>
+          <h1>Magical Tea</h1>
+          <div style="font-size:12px;color:var(--muted)">Magical Science in a Cup</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about">Tentang</a>
+        <a href="#science">Sains</a>
+        <a href="#products">Produk</a>
+        <a href="#contact" class="cta">Pesan Sekarang</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="copy">
+        <h2>Magical Science in a Cup</h2>
+        <p>Minuman sehat dari <strong>bunga telang</strong> dan <strong>stevia</strong> yang berubah warna saat ditambah <strong>lemon</strong>. Sehat, edukatif, dan ramah lingkungan.</p>
+        <div class="btns">
+          <button class="btn primary" id="cta-buy">Coba Sekarang</button>
+          <button class="btn secondary" id="cta-learn">Pelajari Sainsnya</button>
+        </div>
+
+        <div style="margin-top:18px;color:var(--muted);font-size:14px">
+          <strong>Highlight:</strong> Tanpa gula tambahan • Warna alami dari <em>Clitoria ternatea</em> • Pemanis: <em>Stevia rebaudiana</em>
+        </div>
+      </div>
+
+      <div class="cup-card" aria-hidden="false">
+        <div class="cup" role="img" aria-label="Gelas Magical Tea">
+          <div id="liquid" class="liquid" style="background:linear-gradient(90deg,#5b4bd8,#3b2aa8);"></div>
+          <div class="cup-stem"></div>
+        </div>
+        <div class="cup-caption">Tekan slider di bagian Sains untuk lihat perubahan warna</div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h3>Tentang Magical Tea</h3>
+      <p style="color:var(--muted);margin-bottom:16px">
+        Magical Tea adalah inovasi minuman sehat yang memadukan bahan lokal: <strong>bunga telang (Clitoria ternatea)</strong>, <strong>stevia (Stevia rebaudiana)</strong>, dan <strong>lemon (Citrus limon)</strong>. Produk ini dirancang untuk mempromosikan literasi sains sambil menawarkan alternatif rendah gula.
+      </p>
+
+      <div class="three-grid">
+        <div class="card">
+          <div class="ingredient-ill" style="background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white">🌸</div>
+          <h4>Bunga Telang</h4>
+          <p style="color:var(--muted);margin:6px 0 0">Mengandung antosianin — pewarna alami yang bereaksi terhadap pH sehingga menghasilkan perubahan warna biru → ungu saat ditambahkan lemon.</p>
+        </div>
+
+        <div class="card">
+          <div class="ingredient-ill" style="background:linear-gradient(90deg,var(--accent-3),#ffb86b)">🍋</div>
+          <h4>Lemon</h4>
+          <p style="color:var(--muted);margin:6px 0 0">Sumber asam sitrat dan vitamin C yang memberi rasa segar sekaligus memicu reaksi pH pada teh bunga telang.</p>
+        </div>
+
+        <div class="card">
+          <div class="ingredient-ill" style="background:linear-gradient(90deg,#9be7a5,#3bb273)">🌿</div>
+          <h4>Stevia</h4>
+          <p style="color:var(--muted);margin:6px 0 0">Pemanis alami tanpa kalori — aman bagi penderita diabetes dan membantu mengurangi konsumsi gula berlebih.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCIENCE (interactive) -->
+    <section id="science">
+      <h3>The Science Behind the Magic</h3>
+      <p style="color:var(--muted);margin-bottom:12px">Coba geser kontrol pH untuk melihat simulasi perubahan warna antosianin pada bunga telang ketika lingkungan menjadi lebih asam (lemons) atau lebih basa.</p>
+
+      <div class="science-grid">
+        <div class="card">
+          <div style="margin-bottom:14px;font-weight:700">Simulasi pH</div>
+          <div style="margin-bottom:8px">pH (1 - asam) → (7 netral) → (14 basa)</div>
+          <div class="ph-control">
+            <input id="phRange" type="range" min="1" max="14" value="7" />
+            <div id="phValue" style="width:60px;text-align:center;font-weight:700">7</div>
+          </div>
+
+          <div style="margin-top:14px;color:var(--muted);font-size:14px">
+            <strong>Penjelasan singkat:</strong>
+            <p style="margin:6px 0 0">Antosianin di bunga telang berubah struktur molekulnya ketika pH berubah, sehingga warna larutan bergeser dari <em>biru</em> (netral/basa) menjadi <em>ungu/merah muda</em> (asam).</p>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn secondary" id="demo-acid">Tambah Lemon (Asam)</button>
+            <button class="btn secondary" id="demo-base">Tambah Soda (Basa)</button>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div style="width:100%;text-align:center;margin-bottom:8px;font-weight:700">Preview Warna</div>
+          <div style="width:220px;height:220px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f9fbff);padding:14px">
+            <div id="preview" style="width:100%;height:100%;border-radius:10px;box-shadow:inset 0 -8px 24px rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;flex-direction:column">
+              <div id="previewLiquid" style="width:85%;height:60%;border-radius:10px;background:linear-gradient(90deg,#5b4bd8,#3b2aa8);"></div>
+              <div style="margin-top:8px;color:var(--muted);font-size:13px">Warna berubah sesuai pH</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;color:var(--muted);font-size:13px;text-align:center">
+            <strong>QR Edukasi:</strong><br/>
+            (tempel QR code video eksperimen di sini)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="products">
+  <div class="prod">
+    <div style="height:120px;display:flex;align-items:center;justify-content:center">
+      <svg width="90" height="90" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect width="24" height="24" rx="6" fill="url(#g)"/>
+        <defs>
+          <linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#5b4bd8"/>
+            <stop offset="1" stop-color="#3b2aa8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="name">Magical Tea — Original</div>
+    <div class="desc" style="color:var(--muted);font-size:14px">
+      Teh bunga telang dengan stevia, warna biru alami tanpa tambahan lemon.
+    </div>
+    <div class="price">Rp 7.000</div>
+    <button class="buy" onclick="buyNow('Magical Tea - Original')">Pesan via WhatsApp</button>
+  </div>
+
+  <div class="prod">
+    <div style="height:120px;display:flex;align-items:center;justify-content:center">
+      <svg width="90" height="90" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect width="24" height="24" rx="6" fill="#ffd166"/>
+      </svg>
+    </div>
+    <div class="name">Lemon Bliss</div>
+    <div class="desc" style="color:var(--muted);font-size:14px">
+      Varian lemon segar, menghasilkan perubahan warna biru menjadi ungu.
+    </div>
+    <div class="price">Rp 8.000</div>
+    <button class="buy" onclick="buyNow('Magical Tea - Lemon Bliss')">Pesan via WhatsApp</button>
+  </div>
+
+  <div class="prod">
+    <div style="height:120px;display:flex;align-items:center;justify-content:center">
+      <svg width="90" height="90" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect width="24" height="24" rx="6" fill="#9be7a5"/>
+      </svg>
+    </div>
+    <div class="name">Mint Harmony</div>
+    <div class="desc" style="color:var(--muted);font-size:14px">
+      Sentuhan mint menyegarkan tanpa gula tambahan.
+    </div>
+    <div class="price">Rp 8.000</div>
+    <button class="buy" onclick="buyNow('Magical Tea - Mint Harmony')">Pesan via WhatsApp</button>
+  </div>
+</div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials">
+      <h3>Apa kata mereka</h3>
+      <div class="card carousel" style="margin-top:12px">
+        <div id="slideRow" class="slide" style="transform:translateX(0)">
+          <div class="testi card" style="min-width:320px">
+            <div class="avatar">CR</div>
+            <div>
+              <div style="font-weight:700">Clarissa</div>
+              <div style="color:var(--muted);font-size:13px">"Anak-anak jadi suka eksperimen di rumah — edukatif dan enak!"</div>
+            </div>
+          </div>
+
+          <div class="testi card" style="min-width:320px">
+            <div class="avatar">RN</div>
+            <div>
+              <div style="font-weight:700">Rina</div>
+              <div style="color:var(--muted);font-size:13px">"Alternatif sehat untuk keluarga, rasa manisnya pas dari stevia."</div>
+            </div>
+          </div>
+
+          <div class="testi card" style="min-width:320px">
+            <div class="avatar">AD</div>
+            <div>
+              <div style="font-weight:700">Adit</div>
+              <div style="color:var(--muted);font-size:13px">"Visual yang 'Instagramable' dan cerita sainsnya keren!"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join / CTA -->
+    <section id="join">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:18px">
+        <div>
+          <h3 style="margin-bottom:6px">Gabung gerakan minum sehat & belajar sains</h3>
+          <p style="color:var(--muted);margin:0">Dukung petani lokal, kurangi gula, dan jadikan teh sebagai media pembelajaran sains.</p>
+        </div>
+        <div style="display:flex;gap:12px">
+          <button class="btn primary" id="buy-footer">Beli Sekarang</button>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid rgba(17,24,39,0.04);text-decoration:none;color:var(--muted)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M" /></svg>Ikuti</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container">
+    <div>© 2025 Magical Tea — Semua hak dilindungi</div>
+    <div>
+      <a href="#about">Tentang</a> • <a href="#products">Produk</a> • <a href="#contact">Kontak</a>
+    </div>
+  </footer>
+
+<script>
+  // ---------- Smooth scroll for internal links ----------
+  document.querySelectorAll('a[href^="#"], button#cta-learn').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      const target = el.getAttribute('href') || '#science';
+      if(target.startsWith('#')){
+        e.preventDefault();
+        document.querySelector(target).scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+
+  // ---------- Buy button opens WhatsApp with prefilled message ----------
+  function buyNow(item){
+    const phone = '6281234567890'; // <-- ganti nomor WhatsApp pemilik bisnis (format internasional tanpa +)
+    const text = encodeURIComponent(`Halo, saya ingin pesan: ${item}. Mohon info stok & pengiriman.`);
+    const url = `https://wa.me/${phone}?text=${text}`;
+    window.open(url, '_blank');
+  }
+  document.getElementById('cta-buy').addEventListener('click', ()=> buyNow('Magical Tea - Original'));
+  document.getElementById('buy-footer').addEventListener('click', ()=> buyNow('Magical Tea - Original'));
+
+  // ---------- PH slider and color mapping ----------
+  const phRange = document.getElementById('phRange');
+  const phValue = document.getElementById('phValue');
+  const previewLiquid = document.getElementById('previewLiquid');
+  const liquidMain = document.getElementById('liquid');
+
+  // map pH to gradient colors (approx)
+  function phToGradient(pH){
+    // pH 1-14
+    // acid (1-4): pinkish -> magenta
+    // neutral (~7): blue
+    // basic (8-14): deeper blue/cyan
+    let g1='#5b4bd8', g2='#3b2aa8'; // defaults (neutral)
+    if(pH <= 4){
+      g1 = '#ff7eb6'; g2 = '#ff4d94'; // pinks
+    } else if(pH <= 6){
+      g1 = '#b175d8'; g2 = '#7d53c2'; // purple-ish
+    } else if(pH <= 8){
+      g1 = '#5b4bd8'; g2 = '#3b2aa8'; // bluish (neutral)
+    } else {
+      g1 = '#3b8fd8'; g2 = '#2aa8d8'; // cyan-ish (basic)
+    }
+    return `linear-gradient(90deg, ${g1}, ${g2})`;
+  }
+
+  function updatePH(val){
+    phValue.textContent = val;
+    const grad = phToGradient(Number(val));
+    previewLiquid.style.background = grad;
+    liquidMain.style.background = grad;
+  }
+
+  phRange.addEventListener('input', (e)=> updatePH(e.target.value));
+  updatePH(phRange.value);
+
+  // Demo quick buttons
+  document.getElementById('demo-acid').addEventListener('click', ()=>{
+    phRange.value = 3;
+    updatePH(3);
+    phRange.animate([{transform:'scale(1.02)'},{transform:'scale(1)'}], {duration:300});
+  });
+  document.getElementById('demo-base').addEventListener('click', ()=>{
+    phRange.value = 11;
+    updatePH(11);
+    phRange.animate([{transform:'scale(1.02)'},{transform:'scale(1)'}], {duration:300});
+  });
+
+  // simple testimonial carousel auto slide
+  const slideRow = document.getElementById('slideRow');
+  let slideIndex = 0;
+  function nextSlide(){
+    slideIndex = (slideIndex + 1) % 3;
+    slideRow.style.transform = `translateX(-${slideIndex * 340}px)`;
+  }
+  setInterval(nextSlide, 4000);
+
+  // Accessibility: keyboard for buy buttons
+  document.querySelectorAll('.buy').forEach(b => {
+    b.setAttribute('tabindex','0');
+    b.addEventListener('keypress', e => { if(e.key==='Enter') b.click(); });
+  });
+
+</script>
+
+</body>
+</html>
